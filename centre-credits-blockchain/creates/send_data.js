@@ -27,7 +27,7 @@ module.exports = {
             NetworkAlias: "Testnet",
             Amount: bundle.inputData.Amount,
             Fee: 1.0,
-            UserData: bundle.inputData.UserData
+            UserData: NormalizeData(bundle.inputData.UserData)
           }),
           headers: {
             'Content-type': 'application/json'
@@ -54,7 +54,7 @@ module.exports = {
               NetworkAlias: "Testnet",
               Amount: bundle.inputData.Amount,
               Fee: 1.0,
-              UserData: bundle.inputData.UserData,
+              UserData: NormalizeData(bundle.inputData.UserData),
               TransactionSignature : sign_b58
             }),
             headers: {
@@ -89,6 +89,15 @@ module.exports = {
       ]
     }
   };
+
+function NormalizeData(str){
+  var myBuffer = [];
+  var buffer = new Buffer(str, 'utf16le');
+  for (var i = 0; i < buffer.length; i++) {
+      myBuffer.push(buffer[i]);
+  }
+  return to_b58(myBuffer)
+}
 
   function to_b58(
     B,            //Uint8Array raw byte input
